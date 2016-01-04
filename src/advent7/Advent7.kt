@@ -11,12 +11,14 @@ import kotlin.text.Regex
 fun main(args: Array<String>) {
     val input = File("data\\input7.txt").readLines()
 
-    val a = solve(input, {})
+    val a = solve(input)
     println(a)
-    println(solve(input, { it["b"]?.value = a }))
+
+    val b = solve(input) { it["b"]?.value = a }
+    println(b)
 }
 
-fun solve(input: List<String>, customizer: (HashMap<String, Node>) -> Unit): Int {
+fun solve(input: List<String>, customizer: (HashMap<String, Node>) -> Unit = {}): Int {
     val nodeRegistry = HashMap<String, Node>();
     val instructions = parseInstructions(input, nodeRegistry)
     customizer(nodeRegistry)

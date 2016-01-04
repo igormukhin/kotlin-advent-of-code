@@ -1,7 +1,6 @@
 package advent16
 
 import java.io.File
-import java.util.*
 
 /**
  * Created by igor on 31.12.2015.
@@ -20,14 +19,13 @@ fun main(args: Array<String>) {
     }
 
     // 2
-    val detects2 = HashMap<String, Int>()
-    detects.forEach {
-        val (p, n) = it.split(": ")
-        detects2.put(p, n.toInt())
+    val detects2 = detects.fold(mapOf<String, Int>()) { map, detect ->
+        val (p, n) = detect.split(": ")
+        map + (p to n.toInt())
     }
 
-    val actuallyMore = arrayListOf("cats", "trees")
-    val actuallyLess = arrayListOf("pomeranians", "goldfish")
+    val actuallyMore = listOf("cats", "trees")
+    val actuallyLess = listOf("pomeranians", "goldfish")
     input.forEachIndexed { i, line ->
         var hits = 0
         line.substringAfter(": ").split(", ").forEach {

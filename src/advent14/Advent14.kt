@@ -47,7 +47,7 @@ fun main(args: Array<String>) {
         states.filter { it.dist == maxDist }.forEach { it.points++ }
     }
 
-    println(states.map({ it.points }).max())
+    println(states.map { it.points }.max())
 
 }
 

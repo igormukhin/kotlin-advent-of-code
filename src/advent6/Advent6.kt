@@ -26,8 +26,8 @@ fun solveFirst(input: List<String>) {
         val mr = commandRegex.matchEntire(it) ?: throw RuntimeException(it)
         applyCommand(grid,
                 (mr.groups[1] ?: throw RuntimeException()).value,
-                toPoint(mr, 2, 3),
-                toPoint(mr, 4, 5))
+                mr.toPoint(2, 3),
+                mr.toPoint(4, 5))
     }
 
     println(grid.map { it.count { it } }.sum())
@@ -51,10 +51,10 @@ fun applyCommand(grid: Array<BooleanArray>, command: String, corner1: Point, cor
     }
 }
 
-fun toPoint(mr: MatchResult, xGroup: Int, yGroup: Int): Point =
+fun MatchResult.toPoint(xGroup: Int, yGroup: Int): Point =
         Point(
-                (mr.groups[xGroup] ?: throw RuntimeException()).value.toInt(),
-                (mr.groups[yGroup] ?: throw RuntimeException()).value.toInt()
+                (groups[xGroup] ?: throw RuntimeException()).value.toInt(),
+                (groups[yGroup] ?: throw RuntimeException()).value.toInt()
         )
 
 fun solveSecond(input: List<String>) {
@@ -64,8 +64,8 @@ fun solveSecond(input: List<String>) {
         val mr = commandRegex.matchEntire(it) ?: throw RuntimeException(it)
         val command = (mr.groups[1] ?: throw RuntimeException()).value
         applyLightnessCommand(
-                toPoint(mr, 2, 3),
-                toPoint(mr, 4, 5),
+                mr.toPoint(2, 3),
+                mr.toPoint(4, 5),
                 when (command) {
                     "turn on" -> { i: Int, j: Int -> grid[i][j]++ }
                     "turn off" -> { i: Int, j: Int -> if (grid[i][j] > 0) grid[i][j]-- }

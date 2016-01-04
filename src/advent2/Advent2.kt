@@ -15,14 +15,14 @@ fun String.parseBox(): Box {
 }
 
 fun Box.wrappingPaper(): Int {
-    val sides = arrayListOf(l * w, w * h, h * l)
+    val sides = listOf(l * w, w * h, h * l)
     val smallestSide = sides.min() ?: 0
     val surface = sides.sum() * 2
     return surface + smallestSide
 }
 
 fun Box.ribbonLength(): Int {
-    val lengths = arrayListOf(l + w, w + h, h + l)
+    val lengths = listOf(l + w, w + h, h + l)
     val ribbon = 2 * (lengths.min() ?: 0)
     val bow = l * w * h
     return ribbon + bow

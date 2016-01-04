@@ -10,7 +10,7 @@ import java.util.*
 fun main(args: Array<String>) {
     val input = File("data\\input17.txt").readLines()
 
-    val conts = input.map(String::toInt).toArrayList()
+    val conts = input.map(String::toInt)
     val total = 150
 
     var minLength = Int.MAX_VALUE

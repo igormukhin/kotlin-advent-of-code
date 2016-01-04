@@ -26,7 +26,7 @@ fun main(args: Array<String>) {
             input[2].split(": ")[1].toInt()
     )
 
-    val shopWeapons = arrayListOf(
+    val shopWeapons = listOf(
             ShopItem(8, 4, 0),
             ShopItem(10, 5, 0),
             ShopItem(25, 6, 0),
@@ -34,7 +34,7 @@ fun main(args: Array<String>) {
             ShopItem(74, 8, 0)
         )
 
-    val shopArmors = arrayListOf(
+    val shopArmors = listOf(
             ShopItem(13, 0, 1),
             ShopItem(31, 0, 2),
             ShopItem(53, 0, 3),
@@ -42,7 +42,7 @@ fun main(args: Array<String>) {
             ShopItem(102, 0, 5)
         )
 
-    val shopRings = arrayListOf(
+    val shopRings = listOf(
             ShopItem(25, 1, 0),
             ShopItem(50, 2, 0),
             ShopItem(100, 3, 0),

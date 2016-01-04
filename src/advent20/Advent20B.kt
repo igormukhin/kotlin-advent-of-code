@@ -19,7 +19,7 @@ fun main(args: Array<String>) {
     val threadGroup = ThreadGroup("workers")
 
     (1..Runtime.getRuntime().availableProcessors()).forEach { threadNum ->
-        Thread(threadGroup, Runnable {
+        Thread(threadGroup, {
             println("Starting thread $threadNum")
             while (solutions.isEmpty()) {
                 val myChunk = nextChunk.andIncrement

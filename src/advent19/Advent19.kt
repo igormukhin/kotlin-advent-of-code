@@ -46,10 +46,9 @@ fun main(args: Array<String>) {
 
     var steps = Int.MAX_VALUE
     walkDown(molec, sortedTrans, 1, "e", {
-        print(".")
         if (it < steps) {
             steps = it
-            println(steps)
+            println("Part 2 Hit: $steps (wait a little then kill the programm, cause this may be the best value)")
         }
     }, HashMap<String, Int>())
 
@@ -60,7 +59,7 @@ fun walkDown(source: String, sortedTrans: List<Pair<String, String>>, stepNumber
              tries: MutableMap<String, Int>) {
     if (source.length <= 10) {
         if (tries.containsKey(source)) {
-            val onStep = tries.get(source)!!
+            val onStep = tries[source]!!
             if (stepNumber >= onStep) {
                 return
             } else {

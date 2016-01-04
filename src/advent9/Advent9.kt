@@ -15,7 +15,7 @@ fun main(args: Array<String>) {
 
     val placeSet = HashSet<String>()
     val dists = input.map {
-        val (from, to, value) = it.splitToSequence(" to ", " = ").toArrayList()
+        val (from, to, value) = it.split(" to ", " = ")
         placeSet.add(from)
         placeSet.add(to)
         Distance(from, to, value.toInt())

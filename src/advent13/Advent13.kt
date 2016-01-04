@@ -32,17 +32,12 @@ fun main(args: Array<String>) {
     }.max())
 }
 
-fun happiness(persons: List<Int>, points: Array<IntArray>): Int {
-    var result = 0
-
-    persons.forEachIndexed { i, p ->
+fun happiness(persons: List<Int>, points: Array<IntArray>): Int =
+    persons.mapIndexed { i, p ->
         val onTheRight = persons[if (i + 1 >= persons.size) 0 else i + 1]
         val onTheLeft = persons[if (i - 1 < 0) persons.size - 1 else i - 1]
-        result += points[p][onTheRight] + points[p][onTheLeft]
-    }
-
-    return result
-}
+        points[p][onTheRight] + points[p][onTheLeft]
+    }.sum()
 
 // honestly stolen from https://github.com/kotlin-projects/kotlin-euler/blob/4e883bcf9c15f4330f5db181a1a33773cdcdc62e/src/main/kotlin/euler/Iterators.kt
 // and reformatted
