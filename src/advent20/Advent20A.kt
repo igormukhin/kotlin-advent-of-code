@@ -2,6 +2,8 @@ package advent20A
 
 import java.io.File
 import java.util.*
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
@@ -16,47 +18,54 @@ fun main(args: Array<String>) {
     // 1
     val solutions = Collections.synchronizedSet(HashSet<Int>())
     val nextChunk = AtomicInteger(0)
-    val threadGroup = ThreadGroup("workers")
 
-    (1..Runtime.getRuntime().availableProcessors()).forEach { threadNum ->
-        Thread(threadGroup, {
-            println("Starting thread $threadNum")
-            while (solutions.isEmpty()) {
-                val myChunk = nextChunk.andIncrement
-                var lastPresents = 0
-                for (house in (myChunk * 1000)..((myChunk + 1) * 1000) - 1) {
-                    var presents = 1 + house
-                    var elf = 2
-                    var maxElf = Math.sqrt(house.toDouble()).toInt()
-                    while (elf <= maxElf) {
-                        if (house % elf == 0) {
-                            presents += elf
-                            val otherElf = house / elf
-                            if (elf != otherElf) presents += otherElf
-                        }
-                        elf++
+    loadCPU { threadNum ->
+        while (solutions.isEmpty()) {
+            val myChunk = nextChunk.andIncrement
+            var lastPresents = 0
+            for (house in (myChunk * 1000)..((myChunk + 1) * 1000) - 1) {
+                var presents = 1 + house
+                var elf = 2
+                var maxElf = Math.sqrt(house.toDouble()).toInt()
+                while (elf <= maxElf) {
+                    if (house % elf == 0) {
+                        presents += elf
+                        val otherElf = house / elf
+                        if (elf != otherElf) presents += otherElf
                     }
-
-                    lastPresents = presents
-                    if (presents > targetPresents) {
-                        solutions.add(house)
-                        break
-                    }
+                    elf++
                 }
 
-                println("Thread $threadNum finished with chunk $myChunk where last house had $lastPresents presents");
+                lastPresents = presents
+                if (presents > targetPresents) {
+                    solutions.add(house)
+                    break
+                }
             }
-        }).start()
-    }
 
-    while (threadGroup.activeCount() > 0) {
-        try {
-            Thread.sleep(100L)
-        } catch(e: InterruptedException) {
-            break;
+            println("Thread $threadNum finished with chunk $myChunk where last house had $lastPresents presents");
         }
     }
 
     println("Lowest house is ${solutions.min()}")
 
+}
+
+fun loadCPU(task: (Int) -> Unit) {
+    val cores = Runtime.getRuntime().availableProcessors()
+    executeTaskTimes(cores, task)
+}
+
+fun executeTaskTimes(times: Int, task: (Int) -> Unit) {
+    val executor = Executors.newFixedThreadPool(times)
+
+    for (threadNum in 1..times) {
+        executor.submit {
+            println("Thread $threadNum started")
+            task(threadNum)
+        }
+    }
+
+    executor.shutdown()
+    executor.awaitTermination(1, TimeUnit.DAYS)
 }
