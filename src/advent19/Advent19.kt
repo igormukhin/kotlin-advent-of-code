@@ -32,17 +32,7 @@ fun main(args: Array<String>) {
     println(created.size)
 
     // 2
-    val sortedTrans = trans.sortedWith(Comparator { trans1, trans2 ->
-        val diff = (trans2.second.length - trans2.first.length) -
-                (trans1.second.length - trans1.first.length)
-
-        if (diff != 0) {
-            diff
-        } else {
-            // rest is not important
-            "${trans1.first}:${trans1.second}".compareTo("${trans2.first}:${trans2.second}")
-        }
-    })
+    val sortedTrans = trans.sortedBy { - (it.second.length - it.first.length) } // by descending reduction in length
 
     var steps = Int.MAX_VALUE
     walkDown(molec, sortedTrans, 1, "e", {

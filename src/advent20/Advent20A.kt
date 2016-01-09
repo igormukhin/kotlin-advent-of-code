@@ -59,7 +59,7 @@ fun loadCPU(task: (Int) -> Unit) {
 fun executeTaskTimes(times: Int, task: (Int) -> Unit) {
     val executor = Executors.newFixedThreadPool(times)
 
-    for (threadNum in 1..times) {
+    repeat (times) { threadNum ->
         executor.submit {
             println("Thread $threadNum started")
             task(threadNum)
